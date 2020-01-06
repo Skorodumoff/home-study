@@ -1,0 +1,36 @@
+.message-editor-layout {
+  .header {
+    width: 100%;
+    border-bottom: 2px solid gray;
+    padding: 10px 20px;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    .user-panel {
+      .user-message {
+        margin-right: 10px;
+      }
+    }
+  }
+
+  .container {
+    margin-top: 30px;
+
+    .form-control {
+      margin-bottom: 10px;
+    }
+
+    .message {
+      height: 250px;
+    }
+
+    .right-btn {
+      float: right;
+      margin: 0 5px;
+    }
+  }
+
+
+}
