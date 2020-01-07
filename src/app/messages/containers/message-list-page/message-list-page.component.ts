@@ -1,5 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {PageType} from '../../../core/constants/page-type.enum';
+import {User} from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-message-list-page',
@@ -7,7 +8,10 @@ import {PageType} from '../../../core/constants/page-type.enum';
   styleUrls: ['./message-list-page.component.scss']
 })
 export class MessageListPageComponent implements OnInit {
-  private pageType = PageType.MessageList;
+  private pageType: PageType = PageType.MessageList;
+  private currentUser: User = {
+    userName: 'Daniel'
+  };
 
   constructor() {
   }

@@ -1,5 +1,10 @@
 <div class="message-list-layout">
-  <app-header [pageType]="pageType"></app-header>
+  <app-header
+    [pageType]="pageType"
+    [user]="currentUser"
+    (createNewMessage)="onCreateNewMessage()"
+  >
+  </app-header>
   <div class="container">
     <div class="info-message">
       A new post was saved successfully

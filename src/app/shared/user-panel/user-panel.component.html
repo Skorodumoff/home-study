@@ -1,0 +1,11 @@
+<div class="user-panel">
+  <div *ngIf="!userIsLoggedIn()">
+    <span class="user-message">You are not logged in</span>
+    <button class="btn btn-success">Log In</button>
+  </div>
+  <div *ngIf="userIsLoggedIn()">
+    <span class="user-message">Welcome {{user.userName}}</span>
+    <ng-content></ng-content>
+    <button class="btn btn-warning log-out-btn">Log Out</button>
+  </div>
+</div>

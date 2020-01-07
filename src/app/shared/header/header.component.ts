@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PageType} from '../../core/constants/page-type.enum';
 import {User} from '../../core/models/user.model';
 import {pageTitles} from '../../core/constants/page-titles';
@@ -12,6 +12,7 @@ export class HeaderComponent implements OnInit {
   @Input() pageType: PageType;
   @Input() pageTitle: string;
   @Input() user: User;
+  @Output() createNewMessage = new EventEmitter();
 
   constructor() { }
 
@@ -24,5 +25,9 @@ export class HeaderComponent implements OnInit {
 
   userPanelIsVisible() {
     return this.pageType !== PageType.LogIn;
+  }
+
+  newPostBtnClick() {
+    this.createNewMessage.emit();
   }
 }
