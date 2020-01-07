@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MessageListLayoutComponent } from './message-list-layout.component';
+import { MessageListPageComponent } from './message-list-page.component';
 
 describe('MessageListLayoutComponent', () => {
-  let component: MessageListLayoutComponent;
-  let fixture: ComponentFixture<MessageListLayoutComponent>;
+  let component: MessageListPageComponent;
+  let fixture: ComponentFixture<MessageListPageComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MessageListLayoutComponent ]
+      declarations: [ MessageListPageComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MessageListLayoutComponent);
+    fixture = TestBed.createComponent(MessageListPageComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

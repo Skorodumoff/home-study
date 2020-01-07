@@ -1,0 +1,15 @@
+.header {
+  width: 100%;
+  border-bottom: 2px solid gray;
+  padding: 10px 20px;
+
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .user-panel {
+    .user-message {
+      margin-right: 10px;
+    }
+  }
+}

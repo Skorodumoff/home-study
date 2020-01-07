@@ -1,11 +1,12 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
-import {MessageListLayoutComponent} from './message-list-layout/message-list-layout.component';
-import {EditMessageLayoutComponent} from './edit-message-layout/edit-message-layout.component';
+import {MessageListPageComponent} from './containers/message-list-page/message-list-page.component';
+import {EditMessagePageComponent} from './containers/edit-message-page/edit-message-page.component';
+import {routingConstants} from './constants/routing-constants';
 
 const routes: Routes = [
-  {path: '', component: MessageListLayoutComponent},
-  {path: ':id', component: EditMessageLayoutComponent},
+  {path: '', component: MessageListPageComponent},
+  {path: `:${routingConstants.messageIdParamName}`, component: EditMessagePageComponent},
 ];
 
 @NgModule({

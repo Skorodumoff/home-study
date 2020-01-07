@@ -1,17 +1,19 @@
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
-import {MessageListLayoutComponent} from './message-list-layout/message-list-layout.component';
-import {EditMessageLayoutComponent} from './edit-message-layout/edit-message-layout.component';
+import {MessageListPageComponent} from './containers/message-list-page/message-list-page.component';
+import {EditMessagePageComponent} from './containers/edit-message-page/edit-message-page.component';
 import {MessagesRoutingModule} from './messages-routing.module';
+import {SharedModule} from '../shared/shared.module';
 
 @NgModule({
   declarations: [
-    MessageListLayoutComponent,
-    EditMessageLayoutComponent
+    MessageListPageComponent,
+    EditMessagePageComponent
   ],
   imports: [
     CommonModule,
-    MessagesRoutingModule
+    MessagesRoutingModule,
+    SharedModule
   ]
 })
 export class MessagesModule {

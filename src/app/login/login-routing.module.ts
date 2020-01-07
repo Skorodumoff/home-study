@@ -1,9 +1,9 @@
 import {Routes, RouterModule} from '@angular/router';
-import {LogInLayoutComponent} from './log-in-layout/log-in-layout.component';
+import {LogInPageComponent} from './containers/log-in-page/log-in-page.component';
 import {NgModule} from '@angular/core';
 
 const routes: Routes = [
-  {path: '', component: LogInLayoutComponent},
+  {path: '', component: LogInPageComponent},
 ];
 
 @NgModule({

@@ -1,13 +1,5 @@
 <div class="message-list-layout">
-  <div class="header">
-    <div class="page-name">
-      <h3>Home</h3>
-    </div>
-    <div class="user-panel">
-      <span class="user-message">You are not logged in</span>
-      <button class="btn btn-success">Log In</button>
-    </div>
-  </div>
+  <app-header [pageType]="pageType"></app-header>
   <div class="container">
     <div class="info-message">
       A new post was saved successfully
@@ -15,7 +7,7 @@
     <div class="message-list">
       <table class="table table-bordered table-striped">
         <thead class="thead-dark">
-        <th> User </th>
+        <th> UserModel </th>
         <th> Post </th>
         </thead>
         <tbody>
