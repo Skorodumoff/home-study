@@ -11,12 +11,12 @@
   <tr *ngFor="let message of messages">
     <td class="body-user">
       <div>{{message.user.name}}</div>
-      <div><a class="company-name-link" (click)="openWebsite(message.user.website, $event)">
+      <div><a class="link" (click)="openWebsite(message.user.website, $event)">
         {{message.user.company.name}}
       </a></div>
     </td>
     <td>
-      <div><a href="google.com">{{message.title}}</a></div>
+      <div><a class="link" (click)="editMessageClick(message.id)">{{message.title}}</a></div>
       <div>{{message.body}}</div>
     </td>
   </tr>

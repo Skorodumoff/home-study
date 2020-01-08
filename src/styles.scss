@@ -1,0 +1,14 @@
+//overriding bootstrap styles
+a:not([href]){
+  &.link {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+
+    &:hover {
+      color: #0056b3;
+      text-decoration: underline;
+      cursor: pointer;
+    }
+  }
+}

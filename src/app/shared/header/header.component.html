@@ -2,6 +2,7 @@
   <div class="page-name">
     <h3>{{getPageTitle()}}</h3>
   </div>
+  <a (click)="backToHomepageClick" class="link"></a>
  <app-user-panel
    *ngIf="userPanelIsVisible()"
    [user]="user"

@@ -19,6 +19,9 @@ export class MessageListPageComponent implements OnInit {
   private messages$: Observable<Message[]>;
   private paging$: Observable<PagingState>;
 
+  private messages = null;
+  private paging = null;
+
   constructor(
     private router: Router,
     private messageService: MessageService
@@ -28,6 +31,11 @@ export class MessageListPageComponent implements OnInit {
   ngOnInit() {
     this.messages$ = this.messageService.getCurrentPageMessages();
     this.paging$ = this.messageService.getPagingState();
+
+    // TODO async pipes didnt work when navBack, for some reason, investigate and fix
+    // workaround
+    this.messages$.subscribe(m => this.messages = m);
+    this.paging$.subscribe(p => this.paging = p);
 
     this.messageService.setUpPageSize(10);
     this.messageService.navigateToPage(0);
@@ -47,7 +55,7 @@ export class MessageListPageComponent implements OnInit {
     this.router.navigate([`messages/${routingConstants.newMessageParamValue}`]);
   }
 
-  onEditMessageClick(messageId) {
+  onEditMessage(messageId) {
     this.router.navigate([`messages/${messageId}`]);
   }
 }

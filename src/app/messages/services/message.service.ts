@@ -17,18 +17,17 @@ export class MessageService {
     this.pagingStateSubscriber = subscriber;
   });
 
+  private messagesSubscriber: Subscriber<Message[]>;
+  private pagingStateSubscriber: Subscriber<PagingState>;
+
+  // state
+  private allMessages: Message[] = null;
   private pagingState: PagingState = {
     pageSize: 10,
     currentPage: 0,
     forwardIsAllowed: true,
     backwardIsAllowed: false
   };
-
-  private messagesSubscriber: Subscriber<Message[]>;
-  private pagingStateSubscriber: Subscriber<PagingState>;
-
-  // state
-  private allMessages: Message[] = null;
 
   constructor(private client: HttpClient, private userService: UserService) {
   }
@@ -43,12 +42,16 @@ export class MessageService {
           this.allMessages = messagesWithUserData;
           this.pagingState = this.getUpdatedPagingState(page);
           this.emitPage();
-          console.log(this.pagingState);
+
+          console.log("FOO");
+          console.log(this.allMessages);
         });
     } else {
+      console.log("BAR");
+      console.log(this.allMessages);
+
       this.pagingState = this.getUpdatedPagingState(page);
       this.emitPage();
-      console.log(this.pagingState);
     }
   }
 
@@ -71,6 +74,9 @@ export class MessageService {
 
   private emitPage(): void {
     const pageMessages = this.getMessagesForPage();
+    console.log('page messages');
+    console.log(pageMessages);
+
     this.messagesSubscriber.next(pageMessages);
     this.pagingStateSubscriber.next(this.pagingState);
   }

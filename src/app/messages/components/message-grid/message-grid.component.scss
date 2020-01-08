@@ -19,16 +19,4 @@
     width: 100%;
     table-layout: fixed;
   }
-
-  .company-name-link {
-    color: #007bff;
-    text-decoration: none;
-    background-color: transparent;
-
-    &:hover {
-      color: #0056b3;
-      text-decoration: underline;
-      cursor: pointer;
-    }
-  }
 }
