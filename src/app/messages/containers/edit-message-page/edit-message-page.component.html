@@ -1,15 +1,11 @@
 <div class="message-editor-layout">
   <app-header [pageType]="pageType"></app-header>
   <div class="container">
-    <label for="title">Title</label>
-    <input class="form-control" id="title"/>
-    <label for="message">Message</label>
-    <textarea class="form-control message" id="message"></textarea>
-
-    <div class="buttons">
-      <button class="btn btn-success"> Delete </button>
-      <button class="btn btn-success right-btn" > Save</button>
-      <button class="btn btn-success right-btn"> Cancel</button>
-    </div>
+    <app-message-form
+      [message]="message$ | async"
+      (formSave)="onFormSave($event)"
+      (delete)="onDelete()"
+      (cancel)="onCancel()"
+    ></app-message-form>
   </div>
 </div>

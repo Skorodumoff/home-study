@@ -5,9 +5,7 @@
   >
   </app-header>
   <div class="container">
-    <div class="info-message">
-      A new post was saved successfully
-    </div>
+    <app-notification [notification]="notification$ | async"></app-notification>
     <app-message-grid
       [messages]="messages$ | async"
       (editMessage)="onEditMessage($event)"

@@ -42,16 +42,10 @@ export class MessageService {
           this.allMessages = messagesWithUserData;
           this.pagingState = this.getUpdatedPagingState(page);
           this.emitPage();
-
-          console.log('SLOW');
-          console.log(this.allMessages);
         });
     } else {
-        console.log('FAST');
-        console.log(this.allMessages);
-
-        this.pagingState = this.getUpdatedPagingState(page);
-        this.emitPage();
+      this.pagingState = this.getUpdatedPagingState(page);
+      this.emitPage();
     }
   }
 
@@ -74,11 +68,27 @@ export class MessageService {
 
   private emitPage(): void {
     const pageMessages = this.getMessagesForPage();
-    console.log('page messages');
-    console.log(pageMessages);
 
     this.messagesSubscriber.next(pageMessages);
     this.pagingStateSubscriber.next(this.pagingState);
+  }
+
+  createMessage(message) {
+    return this.client.post(`${environment.api_url}/posts`, {
+      ...message,
+      userId: 1
+    });
+  }
+
+  updateMessage(message) {
+    return this.client.put(`${environment.api_url}/posts/${message.id}`, {
+      ...message,
+      userId: 1 //todo get current user from user service
+    });
+  }
+
+  deleteMessage(id) {
+    return this.client.delete(`${environment.api_url}/posts/${id}`);
   }
 
   // queries
@@ -92,6 +102,14 @@ export class MessageService {
 
   private loadMessages(): Observable<Message[]> {
     return this.client.get<Message[]>(`${environment.api_url}/posts`);
+  }
+
+  getMessage(messageId: number): Observable<Message> {
+    if (this.allMessages !== null) {
+      return of(this.allMessages.find(message => message.id === messageId));
+    } else {
+      return this.client.get<Message>(`${environment.api_url}/posts/${messageId}`);
+    }
   }
 
   // helpers

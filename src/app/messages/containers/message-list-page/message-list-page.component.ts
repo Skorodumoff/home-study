@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {Message} from '../../models/message.model';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
 import {PagingState} from '../../models/paging-state';
+import {NotificationService} from '../../../core/notification.service';
 
 @Component({
   selector: 'app-message-list-page',
@@ -18,25 +19,30 @@ export class MessageListPageComponent implements OnInit {
   private pageType: PageType = PageType.MessageList;
   private messages$: Observable<Message[]>;
   private paging$: Observable<PagingState>;
+  private notification$: Observable<string>;
 
   constructor(
     private router: Router,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private notificationService: NotificationService
   ) {
   }
 
   ngOnInit() {
     this.messages$ = this.messageService.getCurrentPageMessages();
     this.paging$ = this.messageService.getPagingState();
+    this.notification$ = this.notificationService.getNotification();
+
+    this.notification$.subscribe(n => console.log(n));
 
     this.messageService.setUpPageSize(10);
 
     // if we dont deffer this action to the next event loop cycle,
-    // async pipe subscribes on messages$ after navigation event and nothing is shown
+    // async pipe subscribes on messages$ too late and nothing is shown
     // TODO BehaviorSubject might help here, investigate
     setTimeout(() => {
       this.messageService.navigateToPage(0);
-    });
+    }, 0);
   }
 
   onNavigate(direction: NavigationDirection) {

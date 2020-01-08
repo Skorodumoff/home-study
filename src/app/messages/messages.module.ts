@@ -7,19 +7,23 @@ import {SharedModule} from '../shared/shared.module';
 import { MessageGridComponent } from './components/message-grid/message-grid.component';
 import { NavigationComponent } from './components/navigation/navigation.component';
 import {MessageService} from './services/message.service';
+import {ReactiveFormsModule} from '@angular/forms';
+import { MessageFormComponent } from './components/message-form/message-form.component';
 
 @NgModule({
   declarations: [
     MessageListPageComponent,
     EditMessagePageComponent,
     MessageGridComponent,
-    NavigationComponent
+    NavigationComponent,
+    MessageFormComponent
   ],
-  imports: [
-    CommonModule,
-    MessagesRoutingModule,
-    SharedModule
-  ],
+    imports: [
+        CommonModule,
+        MessagesRoutingModule,
+        SharedModule,
+        ReactiveFormsModule
+    ],
   providers: [
     MessageService
   ]
