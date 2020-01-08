@@ -1,12 +1,18 @@
-<form [formGroup]="form">
+<form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="title">Title</label>
   <input class="form-control" id="title" formControlName="title"/>
   <label for="message">Message</label>
   <textarea class="form-control message" id="message" formControlName="body"></textarea>
+
+  <div class="buttons">
+    <button class="btn btn-success" (click)="deleteMessageClick()"> Delete</button>
+    <button
+      class="btn btn-success right-btn"
+      type="submit"
+      [disabled]="!form.valid"> Save</button>
+    <button class="btn btn-success right-btn" (click)="cancelClick()"> Cancel</button>
+  </div>
+
 </form>
 
-<div class="buttons">
-  <button class="btn btn-success" (click)="deleteMessageClick()"> Delete</button>
-  <button class="btn btn-success right-btn" (click)="saveFormClick()"> Save</button>
-  <button class="btn btn-success right-btn" (click)="cancelClick()"> Cancel</button>
-</div>
+

@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {Message} from '../../models/message.model';
 
@@ -15,8 +15,10 @@ export class MessageFormComponent implements OnChanges {
   @Output() delete = new EventEmitter();
 
   private form = new FormGroup({
-    title: new FormControl(''),
-    body: new FormControl(''),
+    title: new FormControl('',
+      Validators.required),
+    body: new FormControl('',
+      Validators.required),
   });
 
   constructor() {
@@ -31,9 +33,10 @@ export class MessageFormComponent implements OnChanges {
     }
   }
 
-  saveFormClick() {
-    const value = this.form.value;
-    this.formSave.emit(value);
+  onSubmit() {
+    if (this.form.valid) {
+      this.formSave.emit(this.form.value);
+    }
   }
 
   deleteMessageClick() {
@@ -43,4 +46,5 @@ export class MessageFormComponent implements OnChanges {
   cancelClick() {
     this.cancel.emit();
   }
+
 }
