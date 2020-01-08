@@ -9,12 +9,12 @@
       A new post was saved successfully
     </div>
     <app-message-grid
-      [messages]="messages"
+      [messages]="messages$ | async"
       (editMessage)="onEditMessage($event)"
     ></app-message-grid>
     <app-navigation
       (navigate)="onNavigate($event)"
-      [paging]="paging"
+      [paging]="paging$ | async"
     ></app-navigation>
   </div>
 </div>

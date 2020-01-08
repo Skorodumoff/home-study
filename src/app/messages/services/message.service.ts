@@ -43,15 +43,15 @@ export class MessageService {
           this.pagingState = this.getUpdatedPagingState(page);
           this.emitPage();
 
-          console.log("FOO");
+          console.log('SLOW');
           console.log(this.allMessages);
         });
     } else {
-      console.log("BAR");
-      console.log(this.allMessages);
+        console.log('FAST');
+        console.log(this.allMessages);
 
-      this.pagingState = this.getUpdatedPagingState(page);
-      this.emitPage();
+        this.pagingState = this.getUpdatedPagingState(page);
+        this.emitPage();
     }
   }
 

@@ -19,9 +19,6 @@ export class MessageListPageComponent implements OnInit {
   private messages$: Observable<Message[]>;
   private paging$: Observable<PagingState>;
 
-  private messages = null;
-  private paging = null;
-
   constructor(
     private router: Router,
     private messageService: MessageService
@@ -32,13 +29,14 @@ export class MessageListPageComponent implements OnInit {
     this.messages$ = this.messageService.getCurrentPageMessages();
     this.paging$ = this.messageService.getPagingState();
 
-    // TODO async pipes didnt work when navBack, for some reason, investigate and fix
-    // workaround
-    this.messages$.subscribe(m => this.messages = m);
-    this.paging$.subscribe(p => this.paging = p);
-
     this.messageService.setUpPageSize(10);
-    this.messageService.navigateToPage(0);
+
+    // if we dont deffer this action to the next event loop cycle,
+    // async pipe subscribes on messages$ after navigation event and nothing is shown
+    // TODO BehaviorSubject might help here, investigate
+    setTimeout(() => {
+      this.messageService.navigateToPage(0);
+    });
   }
 
   onNavigate(direction: NavigationDirection) {
