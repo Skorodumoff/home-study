@@ -17,7 +17,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(paramMap => {
+    this.routeSubscription = this.route.paramMap.subscribe(paramMap => {
       const messageId = paramMap.get(routingConstants.messageIdParamName);
       this.pageType = this.getPageType(messageId);
     });

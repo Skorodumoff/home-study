@@ -12,7 +12,7 @@ export class HeaderComponent implements OnInit {
   @Input() pageType: PageType;
   @Input() pageTitle: string;
   @Input() user: User;
-  @Output() createNewMessage = new EventEmitter();
+  @Output() createNewMessageClick = new EventEmitter();
 
   constructor() { }
 
@@ -28,6 +28,6 @@ export class HeaderComponent implements OnInit {
   }
 
   newPostBtnClick() {
-    this.createNewMessage.emit();
+    this.createNewMessageClick.emit();
   }
 }

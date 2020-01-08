@@ -1,0 +1,18 @@
+<table class="table table-bordered table-striped">
+  <thead class="thead-dark">
+  <th width="30%">User</th>
+  <th>Post</th>
+  </thead>
+  <tbody class="message-table-body">
+  <tr *ngFor="let message of messages">
+    <td>
+      <div>{{message.userId}}</div>
+      <div><a href="google.com">CompanyName</a></div>
+    </td>
+    <td>
+      <div><a href="google.com">{{message.title}}</a></div>
+      <div>{{message.body}}</div>
+    </td>
+  </tr>
+  </tbody>
+</table>
