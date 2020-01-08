@@ -15,9 +15,6 @@ import {NavigationDirection} from '../../constants/navigation-direction.enum';
 })
 export class MessageListPageComponent implements OnInit {
   private pageType: PageType = PageType.MessageList;
-  private currentUser: User = {
-    userName: 'Daniel'
-  };
   private messages$: Observable<Message[]>;
 
   constructor(
@@ -29,7 +26,6 @@ export class MessageListPageComponent implements OnInit {
   ngOnInit() {
     this.messages$ = this.messageService.getCurrentPageMessages();
     this.messageService.navigateToPage(0);
-    this.messages$.subscribe(result => console.log(result));
   }
 
   onNavigate(direction: NavigationDirection) {

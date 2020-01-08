@@ -1,4 +1,22 @@
-.message-table-body {
-  height: 20%;
-  overflow: hidden;
+.message-table {
+  tbody {
+    display: block;
+    max-height: 60vh;
+    overflow-y: scroll;
+  }
+
+  thead,
+  tbody tr {
+    .header-user {
+      width: 30%;
+    }
+
+    .body-user {
+      width: 30%;
+    }
+
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+  }
 }

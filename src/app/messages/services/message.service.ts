@@ -2,12 +2,13 @@ import {Injectable} from '@angular/core';
 import {Message} from '../models/message.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {map, take, tap} from 'rxjs/operators';
-import {Observable, of, Subscriber} from 'rxjs';
+import {forkJoin, Observable, of, Subscriber} from 'rxjs';
+import {UserService} from '../../core/services/user.service';
+import {User} from '../../core/models/user.model';
 
 @Injectable()
 export class MessageService {
-  private pageMessages: Observable<Message[]> = new Observable<Message[]>(subscriber => {
+  private pageMessages$: Observable<Message[]> = new Observable<Message[]>(subscriber => {
     this.subscriber = subscriber;
   });
   private subscriber: Subscriber<Message[]>;
@@ -17,7 +18,7 @@ export class MessageService {
   private pageSize = 10;
   private currentPage = 0;
 
-  constructor(private client: HttpClient) {
+  constructor(private client: HttpClient, private userService: UserService) {
   }
 
   // commands
@@ -25,10 +26,14 @@ export class MessageService {
     this.currentPage = page;
 
     if (this.allMessages === null) {
-      this.loadMessages().pipe(take(1)).subscribe(messages => {
-        this.allMessages = this.sortMessagesById(messages);
-        this.emitPage();
-      });
+      forkJoin([this.loadMessages(), this.userService.loadUsers()]).subscribe(
+        ([messages, users]) => {
+          const sortedMessages = this.sortMessagesById(messages);
+          const messagesWithUserData = this.joinWithUserData(sortedMessages, users);
+          this.allMessages = messagesWithUserData;
+
+          this.emitPage();
+        });
     } else {
       this.emitPage();
     }
@@ -51,7 +56,7 @@ export class MessageService {
 
   // queries
   public getCurrentPageMessages(): Observable<Message[]> {
-    return this.pageMessages;
+    return this.pageMessages$;
   }
 
   private loadMessages(): Observable<Message[]> {
@@ -61,6 +66,13 @@ export class MessageService {
   // helpers
   private sortMessagesById(messages: Message[]): Message[] {
     return messages.sort((a, b) => a.id - b.id);
+  }
+
+  private joinWithUserData(messages: Message[], users: User[]) {
+    return messages.map(message => ({
+      ...message,
+      user: users.find(user => user.id === message.userId)
+    }));
   }
 
   private getMessagesForPage(messages: Message[], pageSize: number, pageNumber: number): Message[] {
