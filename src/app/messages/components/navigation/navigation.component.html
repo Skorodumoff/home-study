@@ -1,11 +1,11 @@
-<div class="navigation">
+<div class="navigation" *ngIf="paging">
   <span
-    class="navigate-button"
+    [ngClass]="{'navigate-button': true, 'disabled': !paging.backwardIsAllowed}"
     (click)="navigateBack()">
     <img src="assets/images/arrow-left.svg" height="20px">
   </span>
   <span
-    class="navigate-button"
+    [ngClass]="{'navigate-button': true, 'disabled': !paging.forwardIsAllowed}"
     (click)="navigateForward()"
   >
     <img src="assets/images/arrow-right.svg" height="20px">

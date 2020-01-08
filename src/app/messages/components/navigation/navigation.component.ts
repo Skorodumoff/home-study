@@ -1,5 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
+import {PagingState} from '../../models/paging-state';
 
 @Component({
   selector: 'app-navigation',
@@ -7,6 +8,7 @@ import {NavigationDirection} from '../../constants/navigation-direction.enum';
   styleUrls: ['./navigation.component.scss']
 })
 export class NavigationComponent implements OnInit {
+  @Input() paging: PagingState;
   @Output() navigate = new EventEmitter<NavigationDirection>();
 
   constructor() { }
@@ -15,10 +17,14 @@ export class NavigationComponent implements OnInit {
   }
 
   navigateBack() {
-    this.navigate.emit(NavigationDirection.back);
+    if (this.paging.backwardIsAllowed) {
+      this.navigate.emit(NavigationDirection.back);
+    }
   }
 
   navigateForward() {
-    this.navigate.emit(NavigationDirection.forward);
+    if (this.paging.forwardIsAllowed) {
+      this.navigate.emit(NavigationDirection.forward);
+    }
   }
 }

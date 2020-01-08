@@ -13,7 +13,7 @@ export class MessageGridComponent implements OnInit {
   ngOnInit() {
   }
 
-  openWebsite(website: string) {
+  openWebsite(website: string, e: Event) {
     if (website.indexOf('http://') > -1 || website.indexOf('https://') > -1) {
       window.open(website);
     } else {

@@ -5,58 +5,83 @@ import {environment} from '../../../environments/environment';
 import {forkJoin, Observable, of, Subscriber} from 'rxjs';
 import {UserService} from '../../core/services/user.service';
 import {User} from '../../core/models/user.model';
+import {PagingState} from '../models/paging-state';
 
 @Injectable()
 export class MessageService {
   private pageMessages$: Observable<Message[]> = new Observable<Message[]>(subscriber => {
-    this.subscriber = subscriber;
+    this.messagesSubscriber = subscriber;
   });
-  private subscriber: Subscriber<Message[]>;
+
+  private pagingState$: Observable<PagingState> = new Observable<PagingState>(subscriber => {
+    this.pagingStateSubscriber = subscriber;
+  });
+
+  private pagingState: PagingState = {
+    pageSize: 10,
+    currentPage: 0,
+    forwardIsAllowed: true,
+    backwardIsAllowed: false
+  };
+
+  private messagesSubscriber: Subscriber<Message[]>;
+  private pagingStateSubscriber: Subscriber<PagingState>;
 
   // state
   private allMessages: Message[] = null;
-  private pageSize = 10;
-  private currentPage = 0;
 
   constructor(private client: HttpClient, private userService: UserService) {
   }
 
   // commands
   public navigateToPage(page: number): void {
-    this.currentPage = page;
-
     if (this.allMessages === null) {
       forkJoin([this.loadMessages(), this.userService.loadUsers()]).subscribe(
         ([messages, users]) => {
           const sortedMessages = this.sortMessagesById(messages);
           const messagesWithUserData = this.joinWithUserData(sortedMessages, users);
           this.allMessages = messagesWithUserData;
-
+          this.pagingState = this.getUpdatedPagingState(page);
           this.emitPage();
+          console.log(this.pagingState);
         });
     } else {
+      this.pagingState = this.getUpdatedPagingState(page);
       this.emitPage();
+      console.log(this.pagingState);
     }
   }
 
+  public setUpPageSize(pageSize: number) {
+    this.pagingState = {
+      ...this.pagingState,
+      pageSize
+    };
+  }
+
   public navigateForward(): void {
-    this.navigateToPage(this.currentPage + 1);
+    this.navigateToPage(this.pagingState.currentPage + 1);
   }
 
   public navigateBack(): void {
-    if (this.currentPage > 0) {
-      this.navigateToPage(this.currentPage - 1);
+    if (this.pagingState.currentPage > 0) {
+      this.navigateToPage(this.pagingState.currentPage - 1);
     }
   }
 
   private emitPage(): void {
-    const pageMessages = this.getMessagesForPage(this.allMessages, this.pageSize, this.currentPage);
-    this.subscriber.next(pageMessages);
+    const pageMessages = this.getMessagesForPage();
+    this.messagesSubscriber.next(pageMessages);
+    this.pagingStateSubscriber.next(this.pagingState);
   }
 
   // queries
   public getCurrentPageMessages(): Observable<Message[]> {
     return this.pageMessages$;
+  }
+
+  public getPagingState(): Observable<PagingState> {
+    return this.pagingState$;
   }
 
   private loadMessages(): Observable<Message[]> {
@@ -75,9 +100,18 @@ export class MessageService {
     }));
   }
 
-  private getMessagesForPage(messages: Message[], pageSize: number, pageNumber: number): Message[] {
-    const start = pageNumber * pageSize;
-    const end = start + pageSize;
-    return messages.slice(start, end);
+  private getUpdatedPagingState(newPage: number): PagingState {
+    return {
+      ...this.pagingState,
+      currentPage: newPage,
+      forwardIsAllowed: this.allMessages.length - this.pagingState.pageSize * (newPage + 1) > 0,
+      backwardIsAllowed: this.allMessages.length > 0 && newPage > 0
+    };
+  }
+
+  private getMessagesForPage(): Message[] {
+    const start = this.pagingState.currentPage * this.pagingState.pageSize;
+    const end = start + this.pagingState.pageSize;
+    return this.allMessages.slice(start, end);
   }
 }

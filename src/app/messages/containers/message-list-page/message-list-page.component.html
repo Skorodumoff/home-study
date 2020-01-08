@@ -1,7 +1,6 @@
 <div class="message-list-layout">
   <app-header
     [pageType]="pageType"
-    [user]="currentUser"
     (createNewMessageClick)="onCreateNewMessageClick()"
   >
   </app-header>
@@ -10,6 +9,9 @@
       A new post was saved successfully
     </div>
     <app-message-grid [messages]="messages$ | async"></app-message-grid>
-    <app-navigation (navigate)="onNavigate($event)"></app-navigation>
+    <app-navigation
+      (navigate)="onNavigate($event)"
+      [paging]="paging$ | async"
+    ></app-navigation>
   </div>
 </div>

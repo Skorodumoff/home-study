@@ -7,6 +7,7 @@ import {MessageService} from '../../services/message.service';
 import {Observable} from 'rxjs';
 import {Message} from '../../models/message.model';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
+import {PagingState} from '../../models/paging-state';
 
 @Component({
   selector: 'app-message-list-page',
@@ -16,6 +17,7 @@ import {NavigationDirection} from '../../constants/navigation-direction.enum';
 export class MessageListPageComponent implements OnInit {
   private pageType: PageType = PageType.MessageList;
   private messages$: Observable<Message[]>;
+  private paging$: Observable<PagingState>;
 
   constructor(
     private router: Router,
@@ -25,10 +27,15 @@ export class MessageListPageComponent implements OnInit {
 
   ngOnInit() {
     this.messages$ = this.messageService.getCurrentPageMessages();
+    this.paging$ = this.messageService.getPagingState();
+
+    this.messageService.setUpPageSize(10);
     this.messageService.navigateToPage(0);
   }
 
   onNavigate(direction: NavigationDirection) {
+    console.log('navigate');
+
     if (direction === NavigationDirection.back) {
       this.messageService.navigateBack();
     } else {

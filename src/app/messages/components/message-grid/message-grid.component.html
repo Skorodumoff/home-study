@@ -11,7 +11,7 @@
   <tr *ngFor="let message of messages">
     <td class="body-user">
       <div>{{message.user.name}}</div>
-      <div><a href="#" (click)="openWebsite(message.user.website)">
+      <div><a class="company-name-link" (click)="openWebsite(message.user.website, $event)">
         {{message.user.company.name}}
       </a></div>
     </td>
