@@ -78,4 +78,8 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   onCancel() {
     this.router.navigate(['/messages']);
   }
+
+  onBackToHomepage() {
+    this.router.navigate(['/messages']);
+  }
 }

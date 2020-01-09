@@ -1,5 +1,8 @@
 <div class="message-editor-layout">
-  <app-header [pageType]="pageType"></app-header>
+  <app-header
+    [pageType]="pageType"
+    (backToHomepageClick)="onBackToHomepage()"
+  ></app-header>
   <div class="container">
     <app-message-form
       [message]="message$ | async"

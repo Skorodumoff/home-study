@@ -36,6 +36,7 @@ export class MessageService {
   public navigateToPage(page: number): void {
     if (this.allMessages === null) {
       forkJoin([this.loadMessages(), this.userService.loadUsers()]).subscribe(
+        // todo move data merge from subscription to pipeline
         ([messages, users]) => {
           const sortedMessages = this.sortMessagesById(messages);
           const messagesWithUserData = this.joinWithUserData(sortedMessages, users);
@@ -100,16 +101,16 @@ export class MessageService {
     return this.pagingState$;
   }
 
-  private loadMessages(): Observable<Message[]> {
-    return this.client.get<Message[]>(`${environment.api_url}/posts`);
-  }
-
-  getMessage(messageId: number): Observable<Message> {
+  public getMessage(messageId: number): Observable<Message> {
     if (this.allMessages !== null) {
       return of(this.allMessages.find(message => message.id === messageId));
     } else {
       return this.client.get<Message>(`${environment.api_url}/posts/${messageId}`);
     }
+  }
+
+  private loadMessages(): Observable<Message[]> {
+    return this.client.get<Message[]>(`${environment.api_url}/posts`);
   }
 
   // helpers

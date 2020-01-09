@@ -3,6 +3,7 @@ import {User} from '../models/user.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
 import {Observable} from 'rxjs';
+import {filter, map} from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -10,5 +11,22 @@ export class UserService {
 
   loadUsers(): Observable<User[]> {
     return this.client.get<User[]>(`${environment.api_url}/users`);
+  }
+
+  getCurrentUser(): User {
+    const user: string = window.localStorage.getItem('currentUser');
+    if (!user) {
+      return null;
+    }
+
+    return JSON.parse(user);
+  }
+
+  storeUser(user): void {
+    window.localStorage.setItem('currentUser', user);
+  }
+
+  login(userName): Observable<User> {
+    return this.loadUsers().pipe(map(users => users.find(user => user.userName === userName)));
   }
 }

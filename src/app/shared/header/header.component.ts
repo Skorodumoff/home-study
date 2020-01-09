@@ -13,6 +13,7 @@ export class HeaderComponent implements OnInit {
   @Input() pageTitle: string;
   @Input() user: User;
   @Output() createNewMessageClick = new EventEmitter();
+  @Output() backToHomepageClick = new EventEmitter();
 
   constructor() { }
 
@@ -25,6 +26,14 @@ export class HeaderComponent implements OnInit {
 
   userPanelIsVisible() {
     return this.pageType !== PageType.LogIn;
+  }
+
+  backToHomepageLinkIsVisible() {
+    return this.pageType === PageType.EditMessage || this.pageType === PageType.CreateMessage;
+  }
+
+  backToHomepage() {
+    this.backToHomepageClick.emit();
   }
 
   newPostBtnClick() {

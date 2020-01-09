@@ -1,12 +1,21 @@
 <div class="header">
-  <div class="page-name">
-    <h3>{{getPageTitle()}}</h3>
+  <div>
+    <h3 class="page-name">{{getPageTitle()}}</h3>
+    <span>
+      <a
+        (click)="backToHomepage()"
+        *ngIf="backToHomepageLinkIsVisible()"
+        class="link"
+      >
+        Back to home page
+      </a>
+    </span>
   </div>
-  <a (click)="backToHomepageClick" class="link"></a>
- <app-user-panel
-   *ngIf="userPanelIsVisible()"
-   [user]="user"
- >
-   <a class="btn btn-info" (click)="newPostBtnClick()">New Post</a>
- </app-user-panel>
+
+  <app-user-panel
+    *ngIf="userPanelIsVisible()"
+    [user]="user"
+  >
+    <a class="btn btn-info" (click)="newPostBtnClick()">New Post</a>
+  </app-user-panel>
 </div>
