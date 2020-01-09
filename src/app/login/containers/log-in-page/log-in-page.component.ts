@@ -31,7 +31,6 @@ export class LogInPageComponent implements OnInit {
         if (!user) {
           this.noUser = true;
         } else {
-          this.userService.storeUser(user);
           this.router.navigate(['messages']);
         }
       });

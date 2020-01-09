@@ -1,7 +1,7 @@
 <div class="message-list-layout">
   <app-header
     [pageType]="pageType"
-    [user]="currentUser"
+    [user]="currentUser$ | async"
     (createNewMessageClick)="onCreateNewMessageClick()"
     (loginClick)="openLoginPage()"
     (logoutClick)="logOutUser()"

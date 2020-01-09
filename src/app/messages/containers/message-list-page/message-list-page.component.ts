@@ -21,7 +21,7 @@ export class MessageListPageComponent implements OnInit {
   private messages$: Observable<Message[]>;
   private paging$: Observable<PagingState>;
   private notification$: Observable<string>;
-  private currentUser: User;
+  private currentUser$: Observable<User>;
 
   constructor(
     private router: Router,
@@ -37,10 +37,8 @@ export class MessageListPageComponent implements OnInit {
     this.notification$ = this.notificationService.getNotification();
 
     this.notification$.subscribe(n => console.log(n));
-
     this.messageService.setUpPageSize(10);
-
-    this.currentUser = this.userService.getCurrentUser();
+    this.currentUser$ = this.userService.getCurrentUser();
 
     // if we dont deffer this action to the next event loop cycle,
     // async pipe subscribes on messages$ too late and nothing is shown
