@@ -4,6 +4,7 @@ import {User} from '../../core/models/user.model';
 import {pageTitles} from '../../core/constants/page-titles';
 import {Router} from '@angular/router';
 import {UserService} from '../../core/services/user.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -13,13 +14,17 @@ import {UserService} from '../../core/services/user.service';
 export class HeaderComponent implements OnInit {
   @Input() pageType: PageType;
   @Input() pageTitle: string;
-  @Input() user: User;
   @Output() createNewMessageClick = new EventEmitter();
   @Output() backToHomepageClick = new EventEmitter();
+
+  private user: User;
+  private user$: Observable<User>;
 
   constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
+    this.user$ = this.userService.getCurrentUser();
+    this.user$.subscribe(user => this.user = user);
   }
 
   getPageTitle() {

@@ -25,6 +25,10 @@ export class MessageGridComponent implements OnInit {
   }
 
   canEdit(message) {
+    if (!this.user) {
+      return false;
+    }
+
     return this.user.id === message.user.id;
   }
 
