@@ -1,22 +1,25 @@
 <table class="table table-bordered table-striped message-table">
   <thead class="thead-dark">
-  <th
-    class="header-user"
-  >User</th>
-  <th
-    class="header-post"
-  >Post</th>
+  <th class="header-user">
+    User
+  </th>
+  <th class="header-post">
+    Post
+  </th>
   </thead>
   <tbody class="message-table-body">
   <tr *ngFor="let message of messages">
     <td class="body-user">
       <div>{{message.user.name}}</div>
-      <div><a class="link" (click)="openWebsite(message.user.website, $event)">
-        {{message.user.company.name}}
-      </a></div>
+      <div>
+        <a class="link" (click)="openWebsite(message.user.website)">
+          {{message.user.company.name}}
+        </a>
+      </div>
     </td>
     <td>
-      <div><a class="link" (click)="editMessageClick(message.id)">{{message.title}}</a></div>
+      <div class="message-title"><a [ngClass]="{'link': true, 'disabled': !this.canEdit(message)}"
+              (click)="editMessageClick(message)">{{message.title}}</a></div>
       <div>{{message.body}}</div>
     </td>
   </tr>

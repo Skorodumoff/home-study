@@ -8,6 +8,7 @@
   <div class="container">
     <app-notification [notification]="notification$ | async"></app-notification>
     <app-message-grid
+      [user]="currentUser$ | async"
       [messages]="messages$ | async"
       (editMessage)="onEditMessage($event)"
     ></app-message-grid>

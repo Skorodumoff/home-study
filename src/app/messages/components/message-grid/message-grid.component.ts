@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Message} from '../../models/message.model';
+import {User} from '../../../core/models/user.model';
 
 @Component({
   selector: 'app-message-grid',
@@ -8,17 +9,14 @@ import {Message} from '../../models/message.model';
 })
 export class MessageGridComponent implements OnInit {
   @Input() messages: Message[] = null;
+  @Input() user: User;
   @Output() editMessage = new EventEmitter<number>();
   constructor() { }
 
   ngOnInit() {
   }
 
-  ngOnChanges(changes) {
-    console.log(changes);
-  }
-
-  openWebsite(website: string, e: Event) {
+  openWebsite(website: string) {
     if (website.indexOf('http://') > -1 || website.indexOf('https://') > -1) {
       window.open(website);
     } else {
@@ -26,7 +24,13 @@ export class MessageGridComponent implements OnInit {
     }
   }
 
-  editMessageClick(messageId: number) {
-    this.editMessage.emit(messageId);
+  canEdit(message) {
+    return this.user.id === message.user.id;
+  }
+
+  editMessageClick(message: Message) {
+    if (this.canEdit(message)) {
+      this.editMessage.emit(message.id);
+    }
   }
 }

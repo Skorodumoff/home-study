@@ -3,6 +3,18 @@
     display: block;
     max-height: 60vh;
     overflow-y: scroll;
+
+    .message-title {
+      font-weight: bold;
+      a.disabled {
+        color: #212529;
+        cursor: auto;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+    }
   }
 
   thead,
