@@ -6,6 +6,7 @@
   <div class="container">
     <app-message-form
       [message]="message$ | async"
+      [pageType]="pageType"
       (formSave)="onFormSave($event)"
       (delete)="onDelete()"
       (cancel)="onCancel()"

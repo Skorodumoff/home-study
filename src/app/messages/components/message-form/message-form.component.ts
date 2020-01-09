@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {Message} from '../../models/message.model';
@@ -10,6 +10,7 @@ import {Message} from '../../models/message.model';
 })
 export class MessageFormComponent implements OnChanges {
   @Input() message: Message = null;
+  @Input() pageType: PageType;
   @Output() formSave = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() delete = new EventEmitter();
@@ -47,4 +48,7 @@ export class MessageFormComponent implements OnChanges {
     this.cancel.emit();
   }
 
+  showDeleteBtn() {
+    return this.pageType === PageType.EditMessage;
+  }
 }

@@ -5,14 +5,16 @@
   <textarea class="form-control message" id="message" formControlName="body"></textarea>
 
   <div class="buttons">
-    <button class="btn btn-success" (click)="deleteMessageClick()"> Delete</button>
+    <button class="btn btn-success"
+            (click)="deleteMessageClick()"
+            *ngIf="showDeleteBtn()"
+    > Delete</button>
     <button
       class="btn btn-success right-btn"
       type="submit"
       [disabled]="!form.valid"> Save</button>
     <button class="btn btn-success right-btn" (click)="cancelClick()"> Cancel</button>
   </div>
-
 </form>
 
 
