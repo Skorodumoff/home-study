@@ -1,12 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
-import {Observable, Subscription} from 'rxjs';
+import {forkJoin, Observable, Subscription, zip} from 'rxjs';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {routingConstants} from '../../constants/routing-constants';
 import {MessageService} from '../../services/message.service';
 import {Message} from '../../models/message.model';
 import {NotificationService} from '../../../core/notification.service';
 import {UserService} from '../../../core/services/user.service';
+import {combineAll, take, withLatestFrom} from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-message-page',
@@ -36,8 +37,20 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
       if (this.pageType === PageType.EditMessage) {
         this.messageId = parseInt(messageStringId, 10);
         this.message$ = this.messageService.getMessage(this.messageId);
+
+        this.restrictEdit();
       }
     });
+  }
+
+  private restrictEdit() {
+    zip(this.userService.getCurrentUser(), this.message$).pipe(take(1))
+      .subscribe(([user, message]) => {
+        if (message.userId !== user.id) {
+          window.alert('You don\'t have permission to view this page');
+          this.router.navigate(['messages']);
+        }
+      });
   }
 
   private getPageType(messageId): PageType {

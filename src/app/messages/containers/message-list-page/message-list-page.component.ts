@@ -36,7 +36,6 @@ export class MessageListPageComponent implements OnInit {
     this.paging$ = this.messageService.getPagingState();
     this.notification$ = this.notificationService.getNotification();
 
-    this.notification$.subscribe(n => console.log(n));
     this.messageService.setUpPageSize(10);
     this.currentUser$ = this.userService.getCurrentUser();
 
