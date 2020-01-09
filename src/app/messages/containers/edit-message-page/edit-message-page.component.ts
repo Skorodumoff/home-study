@@ -6,6 +6,7 @@ import {routingConstants} from '../../constants/routing-constants';
 import {MessageService} from '../../services/message.service';
 import {Message} from '../../models/message.model';
 import {NotificationService} from '../../../core/notification.service';
+import {UserService} from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-edit-message-page',
@@ -22,6 +23,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private messageService: MessageService,
     private notificationService: NotificationService,
+    private userService: UserService,
     private router: Router
   ) {
   }
@@ -82,4 +84,6 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   onBackToHomepage() {
     this.router.navigate(['/messages']);
   }
+
+
 }

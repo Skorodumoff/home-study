@@ -2,6 +2,8 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {PageType} from '../../core/constants/page-type.enum';
 import {User} from '../../core/models/user.model';
 import {pageTitles} from '../../core/constants/page-titles';
+import {Router} from '@angular/router';
+import {UserService} from '../../core/services/user.service';
 
 @Component({
   selector: 'app-header',
@@ -14,10 +16,8 @@ export class HeaderComponent implements OnInit {
   @Input() user: User;
   @Output() createNewMessageClick = new EventEmitter();
   @Output() backToHomepageClick = new EventEmitter();
-  @Output() loginClick = new EventEmitter();
-  @Output() logoutClick = new EventEmitter();
 
-  constructor() { }
+  constructor(private router: Router, private userService: UserService) { }
 
   ngOnInit() {
   }
@@ -43,10 +43,11 @@ export class HeaderComponent implements OnInit {
   }
 
   onLoginClick() {
-    this.loginClick.emit();
+    this.router.navigate([`log-in`]);
   }
 
   onLogoutClick() {
-    this.logoutClick.emit();
+    this.userService.logOutUser();
+    this.router.navigate(['messages']);
   }
 }

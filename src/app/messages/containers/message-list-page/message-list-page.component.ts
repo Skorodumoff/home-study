@@ -65,13 +65,4 @@ export class MessageListPageComponent implements OnInit {
   onEditMessage(messageId) {
     this.router.navigate([`messages/${messageId}`]);
   }
-
-  openLoginPage() {
-    this.router.navigate([`log-in`]);
-  }
-
-  logOutUser() {
-    this.userService.logOutUser();
-    this.router.navigate(['messages']);
-  }
 }
