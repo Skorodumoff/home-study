@@ -14,7 +14,7 @@ export class LogInPageComponent implements OnInit {
   private noUser = false;
 
   private form = new FormGroup({
-    userName: new FormControl('', Validators.required)
+    username: new FormControl('', Validators.required)
   });
 
   constructor(private userService: UserService, private router: Router) {

@@ -73,6 +73,7 @@ export class MessageListPageComponent implements OnInit {
   }
 
   logOutUser() {
-
+    this.userService.logOutUser();
+    this.router.navigate(['messages']);
   }
 }

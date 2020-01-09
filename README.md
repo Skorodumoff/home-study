@@ -6,6 +6,8 @@ ngrx powered projects (and 3rd party libs are not allowed)
 Thus Observables in services might not be done the optimal way.
 (will clean it up if I have time) 
 
+0) replace observables with behavior subjects
+
 things left to implement:
 
 1) authorization and guards
