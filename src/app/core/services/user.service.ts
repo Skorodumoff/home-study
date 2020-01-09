@@ -15,6 +15,10 @@ export class UserService {
     this.currentUser$.next(user);
   }
 
+  isLoggedIn() {
+    return this.currentUser$.value !== null;
+  }
+
   getCurrentUser() {
     return this.currentUser$;
   }

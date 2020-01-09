@@ -49,8 +49,6 @@ export class MessageListPageComponent implements OnInit {
   }
 
   onNavigate(direction: NavigationDirection) {
-    console.log('navigate');
-
     if (direction === NavigationDirection.back) {
       this.messageService.navigateBack();
     } else {

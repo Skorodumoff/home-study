@@ -9,6 +9,7 @@ import { NavigationComponent } from './components/navigation/navigation.componen
 import {MessageService} from './services/message.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MessageFormComponent } from './components/message-form/message-form.component';
+import {OnlyLoggedInUsersGuard} from './guards/only-logged-in';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { MessageFormComponent } from './components/message-form/message-form.com
         ReactiveFormsModule
     ],
   providers: [
-    MessageService
+    MessageService,
+    OnlyLoggedInUsersGuard
   ]
 })
 export class MessagesModule {
