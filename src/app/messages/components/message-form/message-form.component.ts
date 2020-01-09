@@ -16,9 +16,9 @@ export class MessageFormComponent implements OnChanges {
 
   private form = new FormGroup({
     title: new FormControl('',
-      Validators.required),
+      [Validators.required, Validators.maxLength(200)]),
     body: new FormControl('',
-      Validators.required),
+      [Validators.required, Validators.maxLength(2000)]),
   });
 
   constructor() {

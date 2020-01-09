@@ -14,6 +14,8 @@ export class HeaderComponent implements OnInit {
   @Input() user: User;
   @Output() createNewMessageClick = new EventEmitter();
   @Output() backToHomepageClick = new EventEmitter();
+  @Output() loginClick = new EventEmitter();
+  @Output() logoutClick = new EventEmitter();
 
   constructor() { }
 
@@ -38,5 +40,13 @@ export class HeaderComponent implements OnInit {
 
   newPostBtnClick() {
     this.createNewMessageClick.emit();
+  }
+
+  onLoginClick() {
+    this.loginClick.emit();
+  }
+
+  onLogoutClick() {
+    this.logoutClick.emit();
   }
 }

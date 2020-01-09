@@ -15,6 +15,8 @@
   <app-user-panel
     *ngIf="userPanelIsVisible()"
     [user]="user"
+    (loginClick)="onLoginClick()"
+    (logoutClick)="onLogoutClick()"
   >
     <a class="btn btn-info" (click)="newPostBtnClick()">New Post</a>
   </app-user-panel>

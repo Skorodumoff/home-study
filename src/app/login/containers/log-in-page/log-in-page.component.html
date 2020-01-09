@@ -1,13 +1,15 @@
 <div class="log-in-layout">
- <app-header pageTitle="Log In"></app-header>
+ <app-header [pageType]="pageType"></app-header>
   <div class="log-in-form">
-    <div class="caption">
-      UserModel Name
-    </div>
-      <input type="text" class="form-control invalid"/>
-    <div class="validation-message">
-      Not a valid user name
-    </div>
-    <button class="btn btn-success log-in-btn" >Log In</button>
+    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+      <div class="caption">
+        User Name
+      </div>
+        <input type="text" class="form-control" formControlName="userName"/>
+      <div class="validation-message" *ngIf="noUser">
+        Not a valid user name
+      </div>
+      <button class="btn btn-success log-in-btn" type="submit" [disabled]="!form.valid">Log In</button>
+    </form>
   </div>
 </div>

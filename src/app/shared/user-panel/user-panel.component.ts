@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {User} from '../../core/models/user.model';
 
 @Component({
@@ -8,6 +8,8 @@ import {User} from '../../core/models/user.model';
 })
 export class UserPanelComponent implements OnInit {
   @Input() user: User = null;
+  @Output() loginClick = new EventEmitter();
+  @Output() logoutClick = new EventEmitter();
   constructor() { }
 
   ngOnInit() {
@@ -18,4 +20,11 @@ export class UserPanelComponent implements OnInit {
     return this.user !== null && this.user !== undefined ;
   }
 
+  loginBtnClick() {
+    this.loginClick.emit();
+  }
+
+  logoutBtnClick() {
+    this.logoutClick.emit();
+  }
 }

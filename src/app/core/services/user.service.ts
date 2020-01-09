@@ -23,7 +23,11 @@ export class UserService {
   }
 
   storeUser(user): void {
-    window.localStorage.setItem('currentUser', user);
+    window.localStorage.setItem('currentUser', JSON.stringify(user));
+  }
+
+  logOutUser(): void {
+    window.localStorage.removeItem('currentUser');
   }
 
   login(userName): Observable<User> {

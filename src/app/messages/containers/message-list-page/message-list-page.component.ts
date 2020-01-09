@@ -9,6 +9,7 @@ import {Message} from '../../models/message.model';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
 import {PagingState} from '../../models/paging-state';
 import {NotificationService} from '../../../core/notification.service';
+import {UserService} from '../../../core/services/user.service';
 
 @Component({
   selector: 'app-message-list-page',
@@ -20,11 +21,13 @@ export class MessageListPageComponent implements OnInit {
   private messages$: Observable<Message[]>;
   private paging$: Observable<PagingState>;
   private notification$: Observable<string>;
+  private currentUser: User;
 
   constructor(
     private router: Router,
     private messageService: MessageService,
-    private notificationService: NotificationService
+    private notificationService: NotificationService,
+    private userService: UserService
   ) {
   }
 
@@ -36,6 +39,8 @@ export class MessageListPageComponent implements OnInit {
     this.notification$.subscribe(n => console.log(n));
 
     this.messageService.setUpPageSize(10);
+
+    this.currentUser = this.userService.getCurrentUser();
 
     // if we dont deffer this action to the next event loop cycle,
     // async pipe subscribes on messages$ too late and nothing is shown
@@ -61,5 +66,13 @@ export class MessageListPageComponent implements OnInit {
 
   onEditMessage(messageId) {
     this.router.navigate([`messages/${messageId}`]);
+  }
+
+  openLoginPage() {
+    this.router.navigate([`log-in`]);
+  }
+
+  logOutUser() {
+
   }
 }

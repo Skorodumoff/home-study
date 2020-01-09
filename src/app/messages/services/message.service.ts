@@ -84,7 +84,7 @@ export class MessageService {
   updateMessage(message) {
     return this.client.put(`${environment.api_url}/posts/${message.id}`, {
       ...message,
-      userId: 1 //todo get current user from user service
+      userId: this.userService.getCurrentUser().id
     });
   }
 
