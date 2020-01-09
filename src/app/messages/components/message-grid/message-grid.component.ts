@@ -29,7 +29,7 @@ export class MessageGridComponent implements OnInit {
       return false;
     }
 
-    return this.user.id === message.user.id;
+    return this.user.id === message.userId;
   }
 
   editMessageClick(message: Message) {

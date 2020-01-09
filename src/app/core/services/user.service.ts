@@ -9,6 +9,7 @@ import {filter, last, map} from 'rxjs/operators';
 export class UserService {
   constructor(private client: HttpClient) { }
   private currentUser$ = new BehaviorSubject<User>(null);
+  private allUsers: User[] = null;
 
   init() {
     const user = this.getUserFromStorage();
@@ -23,8 +24,17 @@ export class UserService {
     return this.currentUser$;
   }
 
+  getAllUsers() {
+    return this.allUsers;
+  }
+
   loadUsers(): Observable<User[]> {
-    return this.client.get<User[]>(`${environment.api_url}/users`);
+    const users$ = this.client.get<User[]>(`${environment.api_url}/users`);
+      users$.subscribe((users) => {
+        this.allUsers = users;
+      });
+
+      return users$;
   }
 
   getUserFromStorage() {

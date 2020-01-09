@@ -6,6 +6,7 @@ import {forkJoin, Observable, of, Subscriber} from 'rxjs';
 import {UserService} from '../../core/services/user.service';
 import {User} from '../../core/models/user.model';
 import {PagingState} from '../models/paging-state';
+import {take} from 'rxjs/operators';
 
 @Injectable()
 export class MessageService {
@@ -74,22 +75,47 @@ export class MessageService {
     this.pagingStateSubscriber.next(this.pagingState);
   }
 
-  createMessage(message) {
-    return this.client.post(`${environment.api_url}/posts`, {
+  addMessageLocally(message) {
+    const maxId = Math.max(...this.allMessages.map(m => m.id));
+    const allUsers = this.userService.getAllUsers();
+
+    const user = allUsers.find(u => u.id === this.userService.getCurrentUser().value.id);
+
+    const newMessage = {
       ...message,
-      userId: 1
-    });
+      id: maxId + 1,
+      user,
+      userId: user.id
+    };
+
+    this.allMessages = [newMessage, ...this.allMessages];
+  }
+
+  updateMessageLocally(message) {
+    console.log(message);
+    this.allMessages = this.allMessages.map(m => m.id === message.id ? {
+      ...m,
+      ...message,
+    } : m);
+  }
+
+  deleteMessageLocally(messageId) {
+    this.allMessages = this.allMessages.filter(m => m.id !== messageId);
+  }
+
+  createMessage(message) {
+    this.addMessageLocally(message);
+    return of(message);
   }
 
   updateMessage(message) {
-    return this.client.put(`${environment.api_url}/posts/${message.id}`, {
-      ...message,
-      userId: this.userService.getCurrentUser().value.id
-    });
+    this.updateMessageLocally(message);
+    return of(message);
   }
 
   deleteMessage(id) {
-    return this.client.delete(`${environment.api_url}/posts/${id}`);
+    this.deleteMessageLocally(id);
+    return of({});
   }
 
   // queries
@@ -115,7 +141,7 @@ export class MessageService {
 
   // helpers
   private sortMessagesById(messages: Message[]): Message[] {
-    return messages.sort((a, b) => a.id - b.id);
+    return messages.sort((a, b) => b.id - a.id);
   }
 
   private joinWithUserData(messages: Message[], users: User[]) {

@@ -65,6 +65,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   }
 
   onFormSave(formValue) {
+    console.log('save');
     if (this.pageType === PageType.CreateMessage) {
       this.messageService.createMessage(formValue).subscribe(() => {
         this.router.navigate(['/messages']);
