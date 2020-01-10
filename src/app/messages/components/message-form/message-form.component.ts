@@ -1,28 +1,40 @@
-import {Component, EventEmitter, Input, OnChanges, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {Message} from '../../models/message.model';
+import {Observable} from 'rxjs';
+import {take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-message-form',
   templateUrl: './message-form.component.html',
   styleUrls: ['./message-form.component.scss']
 })
-export class MessageFormComponent implements OnChanges {
+export class MessageFormComponent implements OnChanges, OnInit {
   @Input() message: Message = null;
   @Input() pageType: PageType;
   @Output() formSave = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() delete = new EventEmitter();
+  @Output() formTouched = new EventEmitter();
 
   private form = new FormGroup({
-    title: new FormControl('',
-      [Validators.required, Validators.maxLength(200)]),
+    title: new FormControl('', {
+      validators: [Validators.required, Validators.maxLength(200)]
+    }),
     body: new FormControl('',
-      [Validators.required, Validators.maxLength(2000)]),
+      {
+        validators: [Validators.required, Validators.maxLength(2000)]
+      }),
   });
 
   constructor() {
+  }
+
+  ngOnInit(): void {
+    this.form.valueChanges.pipe(take(1)).subscribe(() => {
+      this.formTouched.emit();
+    });
   }
 
   ngOnChanges() {
@@ -45,7 +57,7 @@ export class MessageFormComponent implements OnChanges {
   }
 
   cancelClick() {
-    this.cancel.emit();
+    this.form.reset();
   }
 
   showDeleteBtn() {

@@ -19,6 +19,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   private pageType: PageType;
   private messageId: number;
   private message$: Observable<Message>;
+  private formTouched = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -83,11 +84,12 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    // todo confirmation popup
-    this.messageService.deleteMessage(this.messageId).subscribe(() => {
-      this.router.navigate(['/messages']);
-      this.notificationService.showMessage('post was deleted');
-    });
+    if (window.confirm('do you really want to delete this message')) {
+      this.messageService.deleteMessage(this.messageId).subscribe(() => {
+        this.router.navigate(['/messages']);
+        this.notificationService.showMessage('post was deleted');
+      });
+    }
   }
 
   onCancel() {
@@ -95,8 +97,16 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   }
 
   onBackToHomepage() {
-    this.router.navigate(['/messages']);
+    if (this.formTouched) {
+      if (window.confirm('Are you sure you want to leave unsaved data')) {
+        this.router.navigate(['/messages']);
+      }
+    } else {
+      this.router.navigate(['/messages']);
+    }
   }
 
-
+  onFormTouched() {
+    this.formTouched = true;
+  }
 }

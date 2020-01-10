@@ -6,7 +6,15 @@
   height: 250px;
 }
 
+.invalid {
+  border-color: red
+}
+
 .right-btn {
   float: right;
   margin: 0 5px;
+}
+
+.error-messages {
+  color: red;
 }

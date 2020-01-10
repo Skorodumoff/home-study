@@ -1,18 +1,42 @@
 <form [formGroup]="form" (ngSubmit)="onSubmit()">
   <label for="title">Title</label>
-  <input class="form-control" id="title" formControlName="title"/>
+  <input
+    [ngClass]="{
+    'form-control': true,
+    'invalid': form.controls.title.invalid && form.controls.title.dirty
+    }"
+    id="title"
+    formControlName="title"
+  />
+  <div class="error-messages" *ngIf="form.controls.title.invalid && form.controls.title.dirty">
+    <p *ngIf="form.controls.title.errors.required">Field can't be empty</p>
+    <p *ngIf="form.controls.title.errors.maxLength">Length can't be longer than 200 characters</p>
+  </div>
   <label for="message">Message</label>
-  <textarea class="form-control message" id="message" formControlName="body"></textarea>
-
+  <textarea
+    [ngClass]="{
+    'form-control': true,
+    'message': true,
+    'invalid': form.controls.body.invalid && form.controls.body.dirty
+    }"
+    id="message"
+    formControlName="body"
+  ></textarea>
+  <div class="error-messages" *ngIf="form.controls.body.invalid && form.controls.body.dirty">
+    <p *ngIf="form.controls.body.errors.required">Field can't be empty</p>
+    <p *ngIf="form.controls.body.errors.maxLength">Length can't be longer than 2000 characters</p>
+  </div>
   <div class="buttons">
     <button class="btn btn-success"
             (click)="deleteMessageClick()"
             *ngIf="showDeleteBtn()"
-    > Delete</button>
+    > Delete
+    </button>
     <button
       class="btn btn-success right-btn"
       type="submit"
-      [disabled]="!form.valid"> Save</button>
+      [disabled]="!form.valid"> Save
+    </button>
     <button class="btn btn-success right-btn" (click)="cancelClick()"> Cancel</button>
   </div>
 </form>
