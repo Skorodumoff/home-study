@@ -5,7 +5,11 @@
       <div class="caption">
         User Name
       </div>
-        <input type="text" class="form-control" formControlName="username"/>
+        <input
+          type="text"
+          [ngClass]="{'form-control': true, 'invalid': noUser}"
+          formControlName="username"
+        />
       <div class="validation-message" *ngIf="noUser">
         Not a valid user name
       </div>
