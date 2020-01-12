@@ -39,15 +39,10 @@ export class MessageListPageComponent implements OnInit {
     this.messageService.setUpPageSize(10);
     this.currentUser$ = this.userService.getCurrentUser();
 
-    // if we dont deffer this action to the next event loop cycle,
-    // async pipe subscribes on messages$ too late and nothing is shown
-    // TODO BehaviorSubject might help here, investigate
-    setTimeout(() => {
-      this.messageService.navigateToPage(0);
-    }, 0);
+    this.messageService.init();
   }
 
-  onNavigate(direction: NavigationDirection) {
+  onPageNavigate(direction: NavigationDirection) {
     if (direction === NavigationDirection.back) {
       this.messageService.navigateBack();
     } else {

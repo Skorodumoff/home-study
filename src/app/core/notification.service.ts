@@ -1,22 +1,16 @@
-import { Injectable } from '@angular/core';
-import {BehaviorSubject, Observable, Subscriber} from 'rxjs';
+import {Injectable} from '@angular/core';
+import {BehaviorSubject} from 'rxjs';
 
 @Injectable()
 export class NotificationService {
-  private notification$ = new Observable<string>(subscriber => {
-    this.subscriber = subscriber;
-  });
-  subscriber: Subscriber<string>;
+  private notification$ = new BehaviorSubject<string>(null);
 
-  //private notification$ = new BehaviorSubject()
-
-  constructor() { }
+  constructor() {
+  }
 
   showMessage(message: string) {
-    setTimeout(() => {
-      this.subscriber.next(message);
-      setTimeout(() => this.subscriber.next(null), 5000);
-    }, 0);
+    this.notification$.next(message);
+    setTimeout(() => this.notification$.next(null), 5000);
   }
 
   getNotification() {

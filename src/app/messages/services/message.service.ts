@@ -2,26 +2,13 @@ import {Injectable} from '@angular/core';
 import {Message} from '../models/message.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {forkJoin, Observable, of, Subscriber} from 'rxjs';
+import {BehaviorSubject, forkJoin, Observable, of, Subscriber} from 'rxjs';
 import {UserService} from '../../core/services/user.service';
 import {User} from '../../core/models/user.model';
 import {PagingState} from '../models/paging-state';
-import {take} from 'rxjs/operators';
 
 @Injectable()
 export class MessageService {
-  private pageMessages$: Observable<Message[]> = new Observable<Message[]>(subscriber => {
-    this.messagesSubscriber = subscriber;
-  });
-
-  private pagingState$: Observable<PagingState> = new Observable<PagingState>(subscriber => {
-    this.pagingStateSubscriber = subscriber;
-  });
-
-  private messagesSubscriber: Subscriber<Message[]>;
-  private pagingStateSubscriber: Subscriber<PagingState>;
-
-  // state
   private allMessages: Message[] = null;
   private pagingState: PagingState = {
     pageSize: 10,
@@ -30,11 +17,15 @@ export class MessageService {
     backwardIsAllowed: false
   };
 
+  private pageMessages$ = new BehaviorSubject<Message[]>(null);
+  private pagingState$ = new BehaviorSubject<PagingState>(this.pagingState);
+
+  // state
   constructor(private client: HttpClient, private userService: UserService) {
   }
 
   // commands
-  public navigateToPage(page: number): void {
+  public init() {
     if (this.allMessages === null) {
       forkJoin([this.loadMessages(), this.userService.loadUsers()]).subscribe(
         // todo move data merge from subscription to pipeline
@@ -42,13 +33,14 @@ export class MessageService {
           const sortedMessages = this.sortMessagesById(messages);
           const messagesWithUserData = this.joinWithUserData(sortedMessages, users);
           this.allMessages = messagesWithUserData;
-          this.pagingState = this.getUpdatedPagingState(page);
           this.emitPage();
         });
-    } else {
-      this.pagingState = this.getUpdatedPagingState(page);
-      this.emitPage();
     }
+  }
+
+  public navigateToPage(page: number): void {
+    this.pagingState = this.getUpdatedPagingState(page);
+    this.emitPage();
   }
 
   public setUpPageSize(pageSize: number) {
@@ -71,8 +63,8 @@ export class MessageService {
   private emitPage(): void {
     const pageMessages = this.getMessagesForPage();
 
-    this.messagesSubscriber.next(pageMessages);
-    this.pagingStateSubscriber.next(this.pagingState);
+    this.pageMessages$.next(pageMessages);
+    this.pagingState$.next(this.pagingState);
   }
 
   addMessageLocally(message) {
