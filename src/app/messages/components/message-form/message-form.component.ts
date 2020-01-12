@@ -2,7 +2,6 @@ import {Component, EventEmitter, Input, OnChanges, OnInit, Output} from '@angula
 import {FormControl, FormGroup, Validators} from '@angular/forms';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {Message} from '../../models/message.model';
-import {Observable} from 'rxjs';
 import {take} from 'rxjs/operators';
 
 @Component({
@@ -38,6 +37,10 @@ export class MessageFormComponent implements OnChanges, OnInit {
   }
 
   ngOnChanges() {
+    this.initFormValue();
+  }
+
+  initFormValue() {
     if (this.message !== null) {
       this.form.setValue({
         title: this.message.title,
@@ -57,7 +60,11 @@ export class MessageFormComponent implements OnChanges, OnInit {
   }
 
   cancelClick() {
-    this.form.reset();
+    if (this.pageType === PageType.CreateMessage) {
+      this.form.reset();
+    } else {
+      this.initFormValue();
+    }
   }
 
   showDeleteBtn() {

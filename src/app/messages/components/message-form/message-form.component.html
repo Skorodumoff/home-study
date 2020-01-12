@@ -37,7 +37,13 @@
       type="submit"
       [disabled]="!form.valid"> Save
     </button>
-    <button class="btn btn-success right-btn" (click)="cancelClick()"> Cancel</button>
+    <button
+      class="btn btn-success right-btn"
+      type="button"
+      (click)="cancelClick()"
+    >
+      Cancel
+    </button>
   </div>
 </form>
 

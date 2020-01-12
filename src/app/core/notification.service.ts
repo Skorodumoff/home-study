@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import {Observable, Subscriber} from 'rxjs';
+import {BehaviorSubject, Observable, Subscriber} from 'rxjs';
 
 @Injectable()
 export class NotificationService {
@@ -7,6 +7,8 @@ export class NotificationService {
     this.subscriber = subscriber;
   });
   subscriber: Subscriber<string>;
+
+  //private notification$ = new BehaviorSubject()
 
   constructor() { }
 
