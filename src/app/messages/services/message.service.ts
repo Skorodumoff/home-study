@@ -71,9 +71,9 @@ export class MessageService {
     return {
       ...this.pagingState,
       currentPage: newPage,
-      forwardIsAllowed: this.messageTransportService.getAllMessages().length
+      forwardIsAllowed: this.messageTransportService.getStoredMessages().length
         - this.pagingState.pageSize * (newPage + 1) > 0,
-      backwardIsAllowed: this.messageTransportService.getAllMessages().length > 0 && newPage > 0
+      backwardIsAllowed: this.messageTransportService.getStoredMessages().length > 0 && newPage > 0
     };
   }
 

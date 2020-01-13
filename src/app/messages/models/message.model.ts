@@ -4,7 +4,7 @@ export interface Message {
   userId: number;
   user?: User;
   name?: string;
-  id: number;
+  id?: number;
   title: string;
   body: string;
 }

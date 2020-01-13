@@ -12,18 +12,6 @@ export class MessageTransportService {
   constructor(private httpClient: HttpClient) {
   }
 
-  private loadAllMessages() {
-    return this.httpClient.get<Message[]>(`${environment.api_url}/posts`)
-      .pipe(
-        tap(messages => this.storeMessagesLocally(messages)),
-        share()
-      );
-  }
-
-  public getAllMessages(): Message[] {
-    return this.allMessages !== null ? this.allMessages : [];
-  }
-
   public getMessages(pageSize: number, page: number): Observable<Message[]> {
     if (this.allMessages === null) {
       return this.loadAllMessages().pipe(
@@ -65,6 +53,18 @@ export class MessageTransportService {
     );
   }
 
+  public getStoredMessages(): Message[] {
+    return this.allMessages !== null ? this.allMessages : [];
+  }
+
+  private loadAllMessages() {
+    return this.httpClient.get<Message[]>(`${environment.api_url}/posts`)
+      .pipe(
+        tap(messages => this.storeMessagesLocally(messages)),
+        share()
+      );
+  }
+
   private storeMessagesLocally(messages: Message[]) {
     this.allMessages = this.sortMessagesById(messages);
   }
@@ -77,7 +77,7 @@ export class MessageTransportService {
     const maxId = Math.max(...this.allMessages.map(m => m.id));
     const newMessage = {
       ...message,
-      id: maxId
+      id: maxId + 1
     };
 
     this.allMessages = [newMessage, ...this.allMessages];

@@ -8,6 +8,7 @@ import {filter, last, map, tap} from 'rxjs/operators';
 @Injectable()
 export class UserService {
   constructor(private client: HttpClient) { }
+
   private currentUser$ = new BehaviorSubject<User>(null);
   private allUsers: User[] = null;
 

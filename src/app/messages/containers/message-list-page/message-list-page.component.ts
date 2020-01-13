@@ -7,7 +7,7 @@ import {Observable} from 'rxjs';
 import {Message} from '../../models/message.model';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
 import {PagingState} from '../../models/paging-state';
-import {NotificationService} from '../../../core/notification.service';
+import {NotificationService} from '../../../core/services/notification.service';
 import {UserService} from '../../../core/services/user.service';
 import {MessageService} from '../../services/message.service';
 

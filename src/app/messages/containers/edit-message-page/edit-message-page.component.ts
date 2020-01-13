@@ -4,7 +4,7 @@ import {forkJoin, Observable, Subscription, zip} from 'rxjs';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {routingConstants} from '../../constants/routing-constants';
 import {Message} from '../../models/message.model';
-import {NotificationService} from '../../../core/notification.service';
+import {NotificationService} from '../../../core/services/notification.service';
 import {UserService} from '../../../core/services/user.service';
 import {combineAll, take, withLatestFrom} from 'rxjs/operators';
 import {MessageService} from '../../services/message.service';

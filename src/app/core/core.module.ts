@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {UserService} from './services/user.service';
-import {NotificationService} from './notification.service';
+import {NotificationService} from './services/notification.service';
 
 @NgModule({
   imports: [
