@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import {User} from '../models/user.model';
 import {HttpClient} from '@angular/common/http';
 import {environment} from '../../../environments/environment';
-import {BehaviorSubject, Observable, Subscriber} from 'rxjs';
-import {filter, last, map} from 'rxjs/operators';
+import {BehaviorSubject, Observable, of, Subscriber} from 'rxjs';
+import {filter, last, map, tap} from 'rxjs/operators';
 
 @Injectable()
 export class UserService {
@@ -24,17 +24,17 @@ export class UserService {
     return this.currentUser$;
   }
 
-  getAllUsers() {
-    return this.allUsers;
+  getAllUsers(): Observable<User[]> {
+    if (this.allUsers === null) {
+      return this.loadUsers();
+    }
+    return of(this.allUsers);
   }
 
   loadUsers(): Observable<User[]> {
-    const users$ = this.client.get<User[]>(`${environment.api_url}/users`);
-      users$.subscribe((users) => {
-        this.allUsers = users;
-      });
-
-      return users$;
+    return this.client.get<User[]>(`${environment.api_url}/users`).pipe(
+      tap(users => this.allUsers = users)
+    );
   }
 
   getUserFromStorage() {

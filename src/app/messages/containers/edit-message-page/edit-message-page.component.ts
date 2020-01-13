@@ -3,11 +3,11 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {forkJoin, Observable, Subscription, zip} from 'rxjs';
 import {PageType} from '../../../core/constants/page-type.enum';
 import {routingConstants} from '../../constants/routing-constants';
-import {MessageService} from '../../services/message.service';
 import {Message} from '../../models/message.model';
 import {NotificationService} from '../../../core/notification.service';
 import {UserService} from '../../../core/services/user.service';
 import {combineAll, take, withLatestFrom} from 'rxjs/operators';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'app-edit-message-page',
@@ -47,6 +47,10 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   private restrictEdit() {
     zip(this.userService.getCurrentUser(), this.message$).pipe(take(1))
       .subscribe(([user, message]) => {
+        if (message === undefined) {
+          window.alert('message does not exist');
+          this.router.navigate(['messages']);
+        }
         if (message.userId !== user.id) {
           window.alert('You don\'t have permission to view this page');
           this.router.navigate(['messages']);
@@ -84,7 +88,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
   }
 
   onDelete() {
-    if (window.confirm('do you really want to delete this message')) {
+    if (window.confirm('do you really want to delete this message?')) {
       this.messageService.deleteMessage(this.messageId).subscribe(() => {
         this.router.navigate(['/messages']);
         this.notificationService.showMessage('post was deleted');

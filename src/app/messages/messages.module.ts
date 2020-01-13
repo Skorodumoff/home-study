@@ -10,6 +10,7 @@ import {MessageService} from './services/message.service';
 import {ReactiveFormsModule} from '@angular/forms';
 import { MessageFormComponent } from './components/message-form/message-form.component';
 import {OnlyLoggedInUsersGuard} from './guards/only-logged-in';
+import {MessageTransportService} from './services/message-transport.service';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import {OnlyLoggedInUsersGuard} from './guards/only-logged-in';
     ],
   providers: [
     MessageService,
+    MessageTransportService,
     OnlyLoggedInUsersGuard
   ]
 })

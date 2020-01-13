@@ -3,13 +3,13 @@ import {PageType} from '../../../core/constants/page-type.enum';
 import {User} from '../../../core/models/user.model';
 import {Router} from '@angular/router';
 import {routingConstants} from '../../constants/routing-constants';
-import {MessageService} from '../../services/message.service';
 import {Observable} from 'rxjs';
 import {Message} from '../../models/message.model';
 import {NavigationDirection} from '../../constants/navigation-direction.enum';
 import {PagingState} from '../../models/paging-state';
 import {NotificationService} from '../../../core/notification.service';
 import {UserService} from '../../../core/services/user.service';
+import {MessageService} from '../../services/message.service';
 
 @Component({
   selector: 'app-message-list-page',
@@ -32,14 +32,18 @@ export class MessageListPageComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.messages$ = this.messageService.getCurrentPageMessages();
+    this.messages$ = this.messageService.getMessages();
     this.paging$ = this.messageService.getPagingState();
     this.notification$ = this.notificationService.getNotification();
 
-    this.messageService.setUpPageSize(10);
     this.currentUser$ = this.userService.getCurrentUser();
 
-    this.messageService.init();
+    this.messageService.setUpPageSize(10);
+    this.messageService.navigateToPage(0);
+
+
+    this.paging$.subscribe(p => console.log(p));
+    this.messages$.subscribe(m => console.log(m));
   }
 
   onPageNavigate(direction: NavigationDirection) {
