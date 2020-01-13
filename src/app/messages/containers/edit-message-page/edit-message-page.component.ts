@@ -110,7 +110,7 @@ export class EditMessagePageComponent implements OnInit, OnDestroy {
     }
   }
 
-  onFormTouched() {
-    this.formTouched = true;
+  onFormTouched(touched) {
+    this.formTouched = touched;
   }
 }

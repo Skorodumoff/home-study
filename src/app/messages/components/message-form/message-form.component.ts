@@ -15,7 +15,7 @@ export class MessageFormComponent implements OnChanges, OnInit {
   @Output() formSave = new EventEmitter();
   @Output() cancel = new EventEmitter();
   @Output() delete = new EventEmitter();
-  @Output() formTouched = new EventEmitter();
+  @Output() formTouched = new EventEmitter<boolean>();
 
   private form = new FormGroup({
     title: new FormControl('', {
@@ -31,8 +31,8 @@ export class MessageFormComponent implements OnChanges, OnInit {
   }
 
   ngOnInit(): void {
-    this.form.valueChanges.pipe(take(1)).subscribe(() => {
-      this.formTouched.emit();
+    this.form.valueChanges.subscribe(() => {
+      this.formTouched.emit(this.form.dirty);
     });
   }
 

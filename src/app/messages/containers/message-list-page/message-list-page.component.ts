@@ -40,10 +40,6 @@ export class MessageListPageComponent implements OnInit {
 
     this.messageService.setUpPageSize(10);
     this.messageService.navigateToPage(0);
-
-
-    this.paging$.subscribe(p => console.log(p));
-    this.messages$.subscribe(m => console.log(m));
   }
 
   onPageNavigate(direction: NavigationDirection) {
